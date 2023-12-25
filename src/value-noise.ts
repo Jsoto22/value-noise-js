@@ -20,7 +20,7 @@ export class ValueNoise {
 
     private fade: Function;
 
-    public refresh(seed:string) {
+    public refresh(seed?:string) {
         this.$seed = (seed)?seed: this.generateString(32);
         this.roots = this.cyrb128(this.$seed);
         this.p = new Array<number>(this.lenMax * 2);
