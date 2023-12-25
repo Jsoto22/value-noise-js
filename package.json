@@ -1,7 +1,7 @@
 {
   "name": "value-noise-js",
   "description": "",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "main": "./dist/value-noise.js",
   "module": "./dist/value-noise.mjs",
   "types": "./dist/value-noise.d.js",
@@ -24,6 +24,19 @@
     "type": "git",
     "url": "git+https://github.com/Jsoto22/value-noise-js.git"
   },
+  "keywords": [
+    "Noise",
+    "Perlin Noise",
+    "Value Noise",
+    "1D Noise",
+    "2D Noise",
+    "3D Noise",
+    "pRNG",
+    "RNG",
+    "Javascript",
+    "Typescript",
+    "Light weight"
+  ],
   "author": "Jared Soto",
   "license": "MIT",
   "bugs": {

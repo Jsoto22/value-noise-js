@@ -158,5 +158,3 @@ export class ValueNoise {
     private perlinFade = (t: number): number => ((6 * t - 15) * t + 10) * t * t * t;
 
 }
-
-new ValueNoise();

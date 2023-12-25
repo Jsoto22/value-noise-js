@@ -1,6 +1,6 @@
 # value-noise-js
 
-<img  src="./example_art.png"/>
+<img  src="https://github.com/Jsoto22/value-noise-js/blob/main/example_art.png?raw=true"/>
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
@@ -9,7 +9,7 @@
 
 Inspired by [Improved Noise reference implementation](https://mrl.cs.nyu.edu/~perlin/noise/) by Ken Perlin.
 
-<img  src="./example.png"/>
+<img  src="https://github.com/Jsoto22/value-noise-js/blob/main/example.png?raw=true"/>
 
 Example of 2D Noise image(128x128)
 
@@ -64,7 +64,7 @@ Then create a new instance in your file.
     let y = 2;
 
     // Evaluate at x and y
-    let value = this.noise.evalX(x,y);
+    let value = this.noise.evalXY(x,y);
 ```
 
 ### 3D noise
@@ -75,7 +75,7 @@ Then create a new instance in your file.
     let z = 3;
 
     // Evaluate at x, y, and z
-    let value = this.noise.evalX(x,y,z);
+    let value = this.noise.evalXYZ(x,y,z);
 ```
 
 ### Passing a seed value
@@ -98,7 +98,7 @@ By default, a random seed is generated if left blank.
     let z = 3;
 
     // Evaluate at x, y, and z
-    let value = this.noise.evalX(x,y,z);
+    let value = this.noise.evalXYZ(x,y,z);
 ```
 
 ### Passing a chunk-size value
@@ -121,7 +121,7 @@ Default value is `32`.
     let z = 3;
 
     // Evaluate at x, y, and z
-    let value = this.noise.evalX(x,y,z);
+    let value = this.noise.evalXYZ(x,y,z);
 ```
 
 ### Easing function
@@ -142,7 +142,7 @@ Default value is `'cosine'`.
     let z = 3;
 
     // Evaluate at x, y, and z
-    let value = this.noise.evalX(x,y,z);
+    let value = this.noise.evalXYZ(x,y,z);
 ```
 
 
@@ -160,13 +160,13 @@ Use the `refresh` method to re-roll the values generated with a new random seed,
     let z = 3;
 
     // Evaluate at x, y, and z
-    let value1 = this.noise.evalX(x,y,z);
+    let value1 = this.noise.evalXYZ(x,y,z);
 
     // Re-roll random seed and generate new permutaion table and values
     noise.refresh()
 
     //Returns new value evaluate at x, y, and z
-    let value2 = this.noise.evalX(x,y,z);
+    let value2 = this.noise.evalXYZ(x,y,z);
 
 
 ```
