@@ -1,7 +1,8 @@
 
 export class ValueNoise {
 
-    constructor(public length:number = 32, public type: 'perlin'|'cosine' = 'cosine') {
+    constructor(public seed?: string, public length:number = 32, public type: 'perlin'|'cosine' = 'cosine') {
+        if(seed) {this.$seed = seed};
         this.len = length;
         this.fade = (type == 'perlin')? this.perlinFade: this.cosFade;
         this.genPermutation();
@@ -9,8 +10,8 @@ export class ValueNoise {
     }
 
 
-    public readonly root: string = this.generateString(32);
-    public readonly seed: number[] = this.cyrb128(this.root);
+    public $seed: string = this.generateString(32);
+    private roots: number[] = this.cyrb128(this.$seed);
     private len: number = 32;
     private lenMax: number = this.len ** 2;
 
@@ -19,8 +20,16 @@ export class ValueNoise {
 
     private fade: Function;
 
+    public refresh(seed:string) {
+        this.$seed = (seed)?seed: this.generateString(32);
+        this.roots = this.cyrb128(this.$seed);
+        this.p = new Array<number>(this.lenMax * 2);
+        this.n = [];
+        this.genPermutation();
+    }
+
     private genPermutation() {
-        let rand = this.mulberry32(this.seed[0]);
+        let rand = this.mulberry32(this.roots[0]);
         for (let i = 0; i < this.lenMax; i++) {
             let r = this.lerp(0, 1, this.cosFade(rand()))
 
