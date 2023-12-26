@@ -28,27 +28,23 @@ Well, I can't say it's better, but it was built for my specific needs. This incl
 
 To get started, install the NPM package into your project.
 
-  ```
-  npm install value-noise-js
-  ```
+    npm install value-noise-js
 
 Import the `ValueNoise` class where needed.
 
-    ```
     import { ValueNoise } from 'value-noise-js;
-    '```
 
 Then create a new instance in your file.
 
-    ```
     const noise = new ValueNoise();
-    ```
 
 
 ## Usage
 
 > Noise can be evaluated with any real number equal to 0 or greater. This includes all positive rational , fractional, or irrational numbers.
 >
+
+> [!NOTE]
 > Values between any two whole numbers will return an interpolated value between the corresponding evaluated values at the nearest whole numbers.
 >
 
@@ -127,7 +123,7 @@ The `ValueNoise` constructor accepts an optional `seed` param as a `string` valu
 
 ### Passing a chunk-size value
 
-The `ValueNoise` constructor accepts an optional `length` number as the second param value. Leave the `seed` param as `null` if not needed. 
+The `ValueNoise` constructor accepts an optional `length` number as the second param value. Leave the `seed` param as `undefined` if not needed. 
 
 > [!NOTE]
 > `length` dictates the size of the permutation table generated(`length ^ 2`). Values are eventually looped to save on memory allocation.
@@ -136,15 +132,15 @@ The `ValueNoise` constructor accepts an optional `length` number as the second p
 > The size of the perutaion table should be large enough to hide the repitition, but small enough to iterate and evaluate quicky. The larger the `length`, the more memory and computational time will be needed. Results may vary based on hardware.
 
 > [!CAUTION]
-> `length` value should be a power of 2 when possible due to `bitwise &` operations. Otherwise, the nearest power of 2 value will be used. For example, a `length` value of `56` will be rounded up to `64`, and `23` will be rounded down to `16`.
+> `length` value should be a power of 2 when possible due to `bitwise &` operations. Otherwise, the nearest power of 2 value will be used. For example, a `length` value of `56` will be rounded up to `64`, and `21` will be rounded down to `16`.
 
 > [!IMPORTANT]
-> Default value is `32`.
+> Minimum value of `8`, maximum of `512`, and default of `32` if set to `undefined` or `0`. Decimal values are rounded down to the nearest whole number. Min and max values are automatically set, so no errors will be raised for values outside this range.
 
 ```JavaScript
 
     //Chunk-size of 64 generates 64 ^ 2 purmutations and values
-    const noise = new ValueNoise(null, 64)
+    const noise = new ValueNoise(undefined, 64)
 
     let x = 1;
     let y = 2;
@@ -156,7 +152,7 @@ The `ValueNoise` constructor accepts an optional `length` number as the second p
 
 ### Easing function
 
-The `ValueNoise` constructor accepts an optional `type` as the third param value. Leave the `seed` and `length` param as `null` if not needed. 
+The `ValueNoise` constructor accepts an optional `type` as the third param value. Leave the `seed` and `length` param as `undefined` if not needed. 
 
 > [!IMPORTANT]
 > `type` can be either `'perlin'` or `'cosine'`.  This smooths the interpolation values using the corresponding easing function.
@@ -166,7 +162,7 @@ The `ValueNoise` constructor accepts an optional `type` as the third param value
 ```JavaScript
 
     // Use Perlin fade easing function
-    const noise = new ValueNoise(null, null, 'Perlin')
+    const noise = new ValueNoise(undefined, undefined, 'Perlin')
 
     let x = 1;
     let y = 2;

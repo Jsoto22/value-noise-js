@@ -1,27 +1,29 @@
 
 export class ValueNoise {
 
-    constructor(public seed?: string, public length:number = 32, public type: 'perlin'|'cosine' = 'cosine') {
-        if(seed) {this.$seed = seed};
-        this.len = length;
-        this.fade = (type == 'perlin')? this.perlinFade: this.cosFade;
+    constructor(public seed?: string | undefined, public length: number | undefined = 32, public type: 'perlin' | 'cosine' | undefined = 'cosine') {
+        this.$seed = (seed) ? seed : this.generateString(32);
+        this.roots = this.cyrb128(this.$seed)
+        this.len = (Math.floor(length) == 0) ? 32 : (Math.floor(length) < 8) ? 8 : 2 ** Math.round(Math.log2(Math.sqrt(Math.floor((length > 512) ? 512 : length) ** 2)));
+        this.lenMax = this.len ** 2;
+        this.p = new Array<number>(this.lenMax * 2)
+        this.fade = (type == 'perlin') ? this.perlinFade : this.cosFade;
         this.genPermutation();
-        console.log('initialized')
     }
 
 
-    public $seed: string = this.generateString(32);
-    private roots: number[] = this.cyrb128(this.$seed);
-    private len: number = 32;
-    private lenMax: number = this.len ** 2;
+    public $seed: string;
+    private roots: number[];
+    private len: number;
+    private lenMax: number;
 
-    private p: number[] = new Array<number>(this.lenMax * 2);
+    private p: number[];
     private n: number[] = [];
 
     private fade: Function;
 
-    public refresh(seed?:string) {
-        this.$seed = (seed)?seed: this.generateString(32);
+    public refresh(seed?: string) {
+        this.$seed = (seed) ? seed : this.generateString(32);
         this.roots = this.cyrb128(this.$seed);
         this.p = new Array<number>(this.lenMax * 2);
         this.n = [];
