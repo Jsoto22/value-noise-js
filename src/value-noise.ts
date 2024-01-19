@@ -6,7 +6,7 @@ export class ValueNoise {
         this.roots = this.cyrb128(this.$seed)
         this.len = (Math.floor(length) == 0) ? 32 : (Math.floor(length) < 8) ? 8 : 2 ** Math.round(Math.log2(Math.sqrt(Math.floor((length > 512) ? 512 : length) ** 2)));
         this.lenMax = this.len ** 2;
-        this.p = new Array<number>(this.lenMax * 2)
+        this.p = new Uint32Array(new ArrayBuffer(this.lenMax * 8));
         this.fade = (type == 'perlin') ? this.perlinFade : this.cosFade;
         this.genPermutation();
     }
@@ -17,7 +17,7 @@ export class ValueNoise {
     private len: number;
     private lenMax: number;
 
-    private p: number[];
+    private p: Uint32Array;
     private n: number[] = [];
 
     private fade: Function;
@@ -25,28 +25,29 @@ export class ValueNoise {
     public refresh(seed?: string) {
         this.$seed = (seed) ? seed : this.generateString(32);
         this.roots = this.cyrb128(this.$seed);
-        this.p = new Array<number>(this.lenMax * 2);
+        this.p = new Uint32Array(new ArrayBuffer(this.lenMax * 8));
         this.n = [];
         this.genPermutation();
     }
 
     private genPermutation() {
         let rand = this.mulberry32(this.roots[0]);
+        let shuffle = this.mulberry32(this.roots[1])
         for (let i = 0; i < this.lenMax; i++) {
             let r = this.lerp(0, 1, this.cosFade(rand()))
-
             this.n.push(r);
             this.p[i] = i;
         }
 
-        for (let i = 0; i < this.lenMax; i++) {
-            let r = Math.floor(Math.random() * this.lenMax),
-                iV = this.p[i],
-                rV = this.p[r];
+        for (let i = (this.p.length / 2) - 1; i > 0; i--) {
+            let r = Math.round(shuffle() * ((this.p.length / 2) - 1)),
+                iV = this.p[i]
+            this.p[i] = this.p[r]
+            this.p[r] = iV
+        }
 
-            this.p[i] = rV;
-            this.p[r] = iV;
-            this.p[i + this.lenMax] = this.p[i];
+        for (let i of this.p) {
+            this.p[i + (this.p.length / 2)] = this.p[i]
         }
 
     }
@@ -55,7 +56,6 @@ export class ValueNoise {
         let min = Math.floor(x % this.lenMax),
             t = this.fade(x - min),
             max = min == this.lenMax - 1 ? 0 : min++;
-
         return this.lerp(this.n[min], this.n[max], t);
     }
 
@@ -75,7 +75,6 @@ export class ValueNoise {
             evalX0 = this.lerp(c00, c10, tX),
             evalX1 = this.lerp(c01, c11, tX),
             evalXY = this.lerp(evalX0, evalX1, tY)
-
         return evalXY;
     }
 
@@ -107,7 +106,6 @@ export class ValueNoise {
             evalX11 = this.lerp(c101, c111, tX),
             evalXY1 = this.lerp(evalX10, evalX11, tY),
             evalXYZ = this.lerp(evalXY0, evalXY1, tZ)
-
         return evalXYZ;
     }
 
@@ -139,7 +137,6 @@ export class ValueNoise {
         for (let i = 0; i < length; i++) {
             result += characters.charAt(Math.floor(Math.random() * charactersLength));
         }
-
         return result;
     }
 

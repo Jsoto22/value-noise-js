@@ -1,7 +1,7 @@
 {
   "name": "value-noise-js",
   "description": "A light and simple way to generate 1D, 2D, and 3D value noise in javascript.",
-  "version": "1.2.0",
+  "version": "1.2.4",
   "main": "./dist/value-noise.js",
   "module": "./dist/value-noise.mjs",
   "types": "./dist/value-noise.d.js",
